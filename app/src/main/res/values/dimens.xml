@@ -1,0 +1,10 @@
+<resources>
+    <!--TODO(Step 2 - Defining the dimension for MainLayout padding.)-->
+    <!--START-->
+    <dimen name="main_screen_image_height">220dp</dimen>
+    <dimen name="main_screen_main_layout_padding">5dp</dimen>
+    <dimen name="start_button_size">150dp</dimen>
+    <dimen name="start_button_margin_top">20dp</dimen>
+    <dimen name="start_button_label_text_size">22sp</dimen>
+    <!--END-->
+</resources>
