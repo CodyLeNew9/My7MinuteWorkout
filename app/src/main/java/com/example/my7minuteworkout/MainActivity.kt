@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
         llStart.setOnClickListener {
             val intent = Intent(this, ExerciseActivity::class.java)
             startActivity(intent)
-            finish()
         }
     }
 }
