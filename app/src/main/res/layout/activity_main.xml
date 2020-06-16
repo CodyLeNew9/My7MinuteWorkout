@@ -49,4 +49,5 @@
             android:textSize="@dimen/start_button_label_text_size"
             android:textStyle="bold" />
     </LinearLayout>
+
 </LinearLayout>
