@@ -1,6 +1,7 @@
 package com.example.my7minuteworkout
 
 
+import android.app.Dialog
 import android.content.Intent
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_exercise.*
+import kotlinx.android.synthetic.main.dialog_custom_back_confirmation.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -22,6 +24,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var restProgress = 0 // Variable for timer progress. As initial value the rest progress is set to 0. As we are about to start.
     private var exerciseTimer: CountDownTimer? = null // Variable for Rest Timer and later on we will initialize it.
     private var exerciseProgress = 0 // Variable for timer progress. As initial value the rest progress is set to 0. As we are about to start.
+
+    private val restTimerDuration : Long = 10000 //millisecond
+    private val exerciseTimerDuration : Long = 30000 //milliseconds
 
     private var exerciseList: ArrayList<ExerciseModel>? = null //our exercise list
     private var currentExercisePosition = -1 //Keeping track of postition
@@ -47,7 +52,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         // makes action bar back button work like screen back button
         toolbar_exercise_activity.setNavigationOnClickListener {
-            onBackPressed()
+            customDialogFunction()
         }
 
         //init text to speech
@@ -64,6 +69,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         //END
     }
 
+    override fun onBackPressed() {
+        customDialogFunction()
+    }
 
     //START
     /**
@@ -117,7 +125,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
          *   {#onTick(long)} callbacks.
          */
         // Here we have started a timer of 10 seconds so the 10000 is milliseconds is 10 seconds and the countdown interval is 1 second so it 1000.
-        restTimer = object : CountDownTimer(10000, 1000) {
+        restTimer = object : CountDownTimer(restTimerDuration, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 restProgress++ // It is increased by 1
                 progressBar.progress = 10 - restProgress // Indicates progress bar progress
@@ -186,7 +194,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
          *   {#onTick(long)} callbacks.
          */
         // Here we have started a timer of 10 seconds so the 10000 is milliseconds is 10 seconds and the countdown interval is 1 second so it 1000.
-        exerciseTimer = object : CountDownTimer(30000, 1000) {
+        exerciseTimer = object : CountDownTimer(exerciseTimerDuration, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 exerciseProgress++ // It is increased by 1
                 progressBarExercise.progress = 30 - exerciseProgress // Indicates progress bar progress
@@ -237,6 +245,35 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         //finally set recycler view with adapter
         rvExerciseStatus.adapter = exerciseAdapter
     }
+
+    /**
+     * Method is used to show the Custom Dialog.
+     */
+    private fun customDialogFunction() {
+        val customDialog = Dialog(this)
+        /*Set the screen content from a layout resource.
+        The resource will be inflated, adding all top-level views to the screen.*/
+        customDialog.setContentView(R.layout.dialog_custom_back_confirmation)
+
+        customDialog.tvYes.setOnClickListener(View.OnClickListener {
+
+            finish() // back to upper activity
+
+            //onBackPressed() // back to upper activity
+
+            customDialog.dismiss() // Dialog will be dismissed
+        })
+
+        customDialog.tvNo.setOnClickListener(View.OnClickListener {
+
+            Toast.makeText(applicationContext, "Smart Choice", Toast.LENGTH_SHORT).show()
+
+            customDialog.dismiss()
+        })
+        //Start the dialog and display it on screen.
+        customDialog.show()
+    }
+
 
     /**
      * Here in the Destroy function we will reset the rest timer if it is running.

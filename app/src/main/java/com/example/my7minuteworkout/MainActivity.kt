@@ -3,8 +3,6 @@ package com.example.my7minuteworkout
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +12,16 @@ class MainActivity : AppCompatActivity() {
 
         llStart.setOnClickListener {
             val intent = Intent(this, ExerciseActivity::class.java)
+            startActivity(intent)
+        }
+
+        llBMI.setOnClickListener {
+            val intent = Intent(this, BMIActivity::class.java)
+            startActivity(intent)
+        }
+
+        llHistory.setOnClickListener {
+            val intent = Intent(this, HistoryActivity::class.java)
             startActivity(intent)
         }
     }
